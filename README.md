@@ -1,4 +1,5 @@
-##Website Performance Optimization
+### Website Performance Optimization
+=======================================
 
 ### Critical Rendering Path Optimization
 
@@ -13,7 +14,7 @@
 
 * Moved changedSliderLabel outsize of resizePizzas function
 
-function changeSliderLabel(size) {
+```function changeSliderLabel(size) {
   var pizzaInnerHTML = document.getElementById("pizzaSize").innerHTML;
     switch (size) {
         case "1":
@@ -27,12 +28,12 @@ function changeSliderLabel(size) {
             return;
     }
 }
-
+```
 * Moved DOM calculation and set to variable scrollItem outside of for loop
 * Moved DOM query outside of function and set assigned to variable
 * Use style.transform with translateX instead of style.left 
 
-unction updatePositions() {
+```function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
   var scrollItem = document.body.scrollTop / 1250;
@@ -41,13 +42,37 @@ unction updatePositions() {
   var phase = Math.sin(scrollItem + (i % 5));
   items[i].style.transform = "translateX(" + (items[i].basicLeft - 900 + 100 * phase) + "px)";
   }
-
+```
 
 Now, `views/pizza.html` renders with a consistent frame-rate at 60fps when scrolling.
 
 ### Computational Efficiency
 
+* Converted pizza resize code to use % instead of computing width dynamically using offsetWidth and then applying style 
 
+``` function changePizzaSizes(size) {
+    var pizzaContainers = document.getElementsByClassName("randomPizzaContainer");
+    var length = pizzaContainers.length;
+    var newwidth;
+     switch(size) {
+        case "1":
+            newwidth = 25;
+            break;
+        case "2":
+            newwidth = 33.3;
+            break;
+        case "3":
+            newwidth = 50;
+            break;
+        default:
+            console.log("bug");
+    }
+
+    for (var i = 0; i < length; i++) {
+      pizzaContainers[i].style.width = newwidth+"%";
+    }
+  }
+```
 ###Minification of CSS and JS, and Image Optimization
 
 **How to run Grunt on this project?**
@@ -60,3 +85,5 @@ Now, `views/pizza.html` renders with a consistent frame-rate at 60fps when scrol
 * Go to the project's root directory in your terminal.
 * Install project dependencies by running `npm install`.
 * Run Grunt with `grunt`.
+
+  
