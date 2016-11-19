@@ -650,8 +650,8 @@ var resizePizzas = function(size) {
 window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
+var pizzasDiv = document.getElementById("randomPizzas");
 for (var i = 2; i < 100; i++) {
-    var pizzasDiv = document.getElementById("randomPizzas");
     pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
 
@@ -716,8 +716,19 @@ window.addEventListener('scroll', function() {
 document.addEventListener('DOMContentLoaded', function() {
     var cols = 8;
     var s = 256;
-    for (var i = 0; i < 50; i++) {
-        var elem = document.createElement('img');
+    var pizzaHeight = 100;
+
+// Dynamically calculates the number of pizzas needed to fill the screen, based on browser window resolution.
+    var iHeight = window.screen.height;                   // height of the screen in pixels
+    var row = Math.floor(iHeight / s);                    // number of rows per screen
+    var nrPizza = row * cols; 
+    var elem;                            // number of pizzas on the screen
+// document.getElementById() Web API call is faster and declaring it outside the loop will make only one DOM call
+  var movingPizzas = document.getElementById("movingPizzas1");
+
+  // Creates the moving pizzas
+  for (var i = 0; i < nrPizza; i++) {
+        elem = document.createElement('img');
         elem.className = 'mover';
         elem.src = "images/pizza.png";
         elem.style.height = "100px";
